@@ -131,7 +131,6 @@ if has('termguicolors')
 endif
 let g:sonokai_style = 'atlantis'
 let g:sonokai_better_performance = 1
-colorscheme sonokai
 
 " vim-airline is the status bar at the bottom
 Plug 'vim-airline/vim-airline'       
@@ -146,8 +145,44 @@ let g:airline_skip_empty_sections = 1
 " Syntax
 Plug 'dense-analysis/ale'           " Async Lint Engine
 let g:ale_linters = {}
+let g:ale_fixers = {
+  \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+  \}
 Plug 'tpope/vim-commentary'         " Allows blocks of code commenting
 Plug 'tpope/vim-fugitive'           " Git Status
 Plug 'sheerun/vim-polyglot'         " Syntax highlighting for all the languages
 
+"##############################################################################
+"                             Language Support
+"##############################################################################
+" C++
+:call extend(g:ale_linters, {
+    \"c": ['gcc', 'cppcheck', 'clangtidy', 'clangcheck']})
+:call extend(g:ale_fixers, {
+    \"c": ['astyle', 'clang-format', 'clang-tidy', 'uncrustify']})
+autocmd FileType cpp set ts=2 sw=2
+
+
+" Golang
+:call extend(g:ale_linters, {
+    \"go": ['golint', 'go vet'], })
+:call extend(g:ale_fixers, {
+    \"go": ['gofmt', 'gofumpt', 'goimports', 'golines', 'gopls']})
+
+
+
+
+
+
+
+
+
+
+
+
+
 call plug#end()
+
+
+" Set the theme after loading everything else
+colo sonokai
